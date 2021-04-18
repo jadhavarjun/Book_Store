@@ -6,17 +6,26 @@ const jwtToken = require('../Middleware/jwtToken');
 
 class UserService {
     insert(data) {
+
         let hash = hashPassword.hashPassword(data.password);
         data.password = hash;
-        return userModel.create(data)
+        return userModel.findOne(data.email)
             .then((result) => {
-                console.log("Service then");
-                return ({ success: true, message: "Employee Record insert Successfully", data: result, status: statusCode.OK });
+                if (result) {
+                    return ({ success: false, message: "email already exit", status: statusCode.BadRequest });
+                } else {
+                    return userModel.create(data)
+                        .then((result) => {
+                            console.log("Service then");
+                            return ({ success: true, message: "Employee Record insert Successfully", data: result, status: statusCode.OK });
+                        })
+                        .catch((error) => {
+                            console.log("Service catch");
+                            return ({ success: false, message: "Failed to inset Employee record", error: statusCode.BadRequest });
+                        })
+                }
             })
-            .catch((error) => {
-                console.log("Service catch");
-                return ({ success: false, message: "Failed to inset Employee record", error: statusCode.BadRequest });
-            })
+
     }
     //login
     login(data) {
@@ -29,12 +38,16 @@ class UserService {
                         .then((res) => {
                             if (res) {
                                 let tokenData = {
+                                    role: result.role,
                                     mail: result.email,
                                     id: result._id
                                 }
+                                console.log("tokenDatatatgugj",tokenData);
                                 let token = jwtToken.jwtToken(tokenData);
                                 let dataObj = new Object();
+
                                 dataObj._id = result._id;
+                                dataObj.role = result.role;
                                 dataObj.firstName = result.firstName;
                                 dataObj.lastName = result.lastName;
                                 dataObj.email = result.email;

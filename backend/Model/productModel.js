@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const userMoel = require('../Model/userModel')
 
 const productSchema = new mongoose.Schema({
     bookName: {
@@ -23,6 +22,9 @@ const productSchema = new mongoose.Schema({
         default: 0
     }
 
+},
+{
+    timestamps: true
 });
 
 let productModel = mongoose.model('product', productSchema);
@@ -37,15 +39,22 @@ class ProductModel {
             });
     }
 
+    findAll() {
+        return productModel.find({})
+            .then((result) => {
+                return result;
+            })
+            .catch((error) => {
+                return error;
+            })
+    }
+
     updateBook(id, newData) {
-        console.log("uuuuuuuppppppppppd");
         return productModel.findByIdAndUpdate(id, newData)
             .then(result => {
-                console.log("UM Then");
                 return result;
             })
             .catch(error => {
-                console.log("UM Catch");
                 return error;
             })
     }

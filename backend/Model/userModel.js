@@ -24,7 +24,11 @@ var userModel = new mongoose.Schema({
         required: [true, 'Password is Required']
     }
 
+},
+{
+    timestamps: true
 });
+
 
 let userSchema = mongoose.model('user', userModel);
 console.log("userSchema", userSchema);
@@ -34,11 +38,9 @@ class UserModel {
     create(data) {
         return userSchema.create(data)
             .then((result) => {
-                console.log("model then");
                 return result;
             })
             .catch((error) => {
-                console.log("model catch");
                 return ({ message: "Something Went Wrong Please Check", error: error });
             })
     }
