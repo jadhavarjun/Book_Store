@@ -25,5 +25,6 @@ module.exports = (app) => {
 
     //address apis
     app.post("/add/address",jwtToken.tokenVerify, addressController.addAddress);
-    app.put("/remove/address/:id", jwtToken.tokenVerify, addressController.updateAddress);
+    app.put("/update/address/:id", jwtToken.tokenVerify, addressController.updateAddress);
+    app.delete("/remove/address/:id", jwtToken.tokenVerify, addressController.removeAddress);
 }

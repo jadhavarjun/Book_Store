@@ -66,5 +66,13 @@ class AddressModel{
             return err;
         });
     }
+    removeAddress(id){
+        return addressModel.findByIdAndRemove(id)
+        .then((result) => {
+            return result;
+        }).catch((err) => {
+            return err;
+        });
+    }
 }
 module.exports = new AddressModel();

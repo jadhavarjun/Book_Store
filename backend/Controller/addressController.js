@@ -42,5 +42,24 @@ class AddressController {
             console.error("Record is Not found Please Enter Correct One");
         }
     }
+    removeAddress(req, res) {
+        try {
+            let id = req.params.id;
+            console.log("empid", id);
+            addressService.removeAddress(id)
+                .then((result) => {
+                    response.flag = true;
+                    response.data = result.data;
+                    response.message = result.message;
+                    res.status(result.status).send(response);
+                }).catch((err) => {
+                    response.flag = false;
+                    response.data = err.message;
+                    res.status(err.status).send(response);
+                });
+        } catch (error) {
+            console.error("Record is Not found Please Enter Correct One");
+        }
+    }
 }
 module.exports = new AddressController();
