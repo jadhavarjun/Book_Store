@@ -1,6 +1,7 @@
 const userController = require('../Controller/userController')
 const productController = require('../Controller/productController')
 const cartController = require('../Controller/cartController')
+const addressController = require('../Controller/addressController')
 const jwtToken = require("../Middleware/jwtToken");
 // const validate = require('../Middleware/validate');
 // const validator = require('../Middleware/validator');
@@ -21,4 +22,8 @@ module.exports = (app) => {
     app.delete("/user/remove_cart/:id", jwtToken.tokenVerify, cartController.removeBookCart);
     app.get("/cart", jwtToken.tokenVerify, cartController.getUserCart);
     app.put("/cart/update/:id",jwtToken.tokenVerify, cartController.updateQuantityCart);
+
+    //address apis
+    app.post("/add/address",jwtToken.tokenVerify, addressController.addAddress);
+    app.put("/remove/address/:id", jwtToken.tokenVerify, addressController.updateAddress);
 }

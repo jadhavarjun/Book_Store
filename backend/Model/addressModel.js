@@ -8,31 +8,63 @@ var addressSchema = new mongoose.Schema({
         ref: 'product', //userSchema
         require: true
     },
-    
-    email: {
-        type: String,
-        default: ""
-    },
-    name:
+   
+    fullName:
     {
         type: String,
-        default: ""
+        required: [true, 'name is required']
+    },
+    mobile: {
+        type: Number,
+        required: [true, 'mobile number is required'],
+        minlength: 10,
+        maxlength: 10
+    },
+    pincode:
+    {
+        type: Number,
+        required:[true, 'pincode is required']
+    },
+    city:
+    {
+        type: String,
+        required:[true, 'city is required']
     },
     address:
     {
         type: String,
-        default: ""
+        required: [true, 'address is required']
     },
-    postcode:
+    landmark:
     {
         type: String,
-        default: ""
+        required:[true, 'landmark is required']
     },
     state:
     {
         type: String,
-        default: ""
+        required:[true, 'state is required']
     },
 });
 
 var addressModel = mongoose.model('address', addressSchema);
+
+class AddressModel{
+    addAddress(data){
+        return addressModel.create(data)
+        .then((result) => {
+            return result;
+        }).catch((err) => {
+            return err;
+        });
+    }
+    updateAddress(id, newData){
+        return addressModel.findByIdAndUpdate(id, newData)
+        .then((result) => {
+            return result;
+        }).catch((err) => {
+            return err;
+        });
+    }
+}
+module.exports = new AddressModel();
