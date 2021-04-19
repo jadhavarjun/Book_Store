@@ -3,12 +3,11 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema
 // a mongoose schema
 var addressSchema = new mongoose.Schema({
-    productID: {
+    userID: {
         type: Schema.Types.ObjectId, //referencing other documents from other collections
-        ref: 'product', //userSchema
+        ref: 'user', //userSchema
         require: true
     },
-   
     fullName:
     {
         type: String,

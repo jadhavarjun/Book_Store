@@ -4,7 +4,8 @@ const response = {};
 class AddressController {
     addAddress(req, res) {
         try {
-            addressService.addAddress(req.body)
+            let id = req.decoded.id;
+            addressService.addAddress(req.body, id)
                 .then((result) => {
                     response.data = result.data;
                     response.flag = true;

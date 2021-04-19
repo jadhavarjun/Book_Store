@@ -3,9 +3,7 @@ const productService = require('../Service/productService')
 const response = {};
 class ProductController {
     addBook(req, res) {
-        console.log("reqduishifji", req.body)
         try {
-            // let id = req.decoded.id;
             let role = req.decoded.role;
             productService.addBook(req.body, role)
                 .then((result) => {
@@ -39,7 +37,6 @@ class ProductController {
                 });
         } catch (error) {
             console.log(error);
-
         }
     }
 

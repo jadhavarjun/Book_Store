@@ -3,7 +3,6 @@ const statusCode = require('../Middleware/httpStatusCode.json')
 
 class ProductService {
     addBook(data, role) {
-        console.log("///////", role);
         // data.adminID = id;
         return productModel.addBook(data)
             .then((result) => {

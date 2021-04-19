@@ -5,7 +5,6 @@ class CartController {
     addBookCart(req, res) {
         try {
             let id = req.decoded.id;
-            console.log("//////", req.body, id);
             cartService.addBookCart(req.body, id)
                 .then((result) => {
                     response.data = result.data;

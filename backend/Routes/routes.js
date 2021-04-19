@@ -2,6 +2,7 @@ const userController = require('../Controller/userController')
 const productController = require('../Controller/productController')
 const cartController = require('../Controller/cartController')
 const addressController = require('../Controller/addressController')
+const orderBookController = require('../Controller/orderBookController')
 const jwtToken = require("../Middleware/jwtToken");
 // const validate = require('../Middleware/validate');
 // const validator = require('../Middleware/validator');
@@ -15,7 +16,7 @@ module.exports = (app) => {
     app.post("/admin/add_book",jwtToken.tokenVerify,productController.addBook);
     app.put("/admin/update_book/:id",jwtToken.tokenVerify, productController.updateBook);
     app.delete("/admin/delete_book/:id", jwtToken.tokenVerify, productController.deleteBook);
-    app.get("/bookstore/get", jwtToken.tokenVerify, productController.getData);
+    app.get("/bookstore/get",productController.getData);
 
     // cart apis
     app.post("/user/add_cart",jwtToken.tokenVerify,cartController.addBookCart);
@@ -27,4 +28,8 @@ module.exports = (app) => {
     app.post("/add/address",jwtToken.tokenVerify, addressController.addAddress);
     app.put("/update/address/:id", jwtToken.tokenVerify, addressController.updateAddress);
     app.delete("/remove/address/:id", jwtToken.tokenVerify, addressController.removeAddress);
+
+    //orderBook api
+    app.post("/place_order",jwtToken.tokenVerify, orderBookController.placeOrder);
+    app.get("/get_order_details", jwtToken.tokenVerify, orderBookController.getOrderDetails)
 }

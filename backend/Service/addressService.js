@@ -2,7 +2,8 @@ const addressModel = require('../Model/addressModel')
 const statusCode = require('../Middleware/httpStatusCode.json');
 
 class AddressService {
-    addAddress(data) {
+    addAddress(data, id) {
+        data.userID = id;
         return addressModel.addAddress(data)
             .then((result) => {
                 return ({ success: true, message: "Address Added Successfully", data: result, status: statusCode.OK });
@@ -19,13 +20,13 @@ class AddressService {
                 return ({ message: "Address is Not found", error: err, status: statusCode.NotFound });
             });
     }
-    removeAddress(id){
+    removeAddress(id) {
         return addressModel.removeAddress(id)
-        .then((result) => {
-            return ({ message: "Address Deleted Successfully", data: result, status: statusCode.OK });
-        }).catch((err) => {
-            return ({ message: "Address is Deleted", error:err, status: statusCode.OK });
-        });
+            .then((result) => {
+                return ({ message: "Address Deleted Successfully", data: result, status: statusCode.OK });
+            }).catch((err) => {
+                return ({ message: "Address is Deleted", error: err, status: statusCode.OK });
+            });
     }
 }
 module.exports = new AddressService();
