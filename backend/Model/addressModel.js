@@ -73,5 +73,14 @@ class AddressModel{
             return err;
         });
     }
+    getAddress(id){
+        return addressModel.findOne({ userID: id })
+        .then((result) => {
+            return result;
+        })
+        .catch((error) => {
+            return error;
+        })
+    }
 }
 module.exports = new AddressModel();

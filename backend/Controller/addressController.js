@@ -62,5 +62,23 @@ class AddressController {
             console.error("Record is Not found Please Enter Correct One");
         }
     }
+    getAddress(req, res){
+        try {
+            let id = req.decoded.id;
+            addressService.getAddress(id)
+                .then((result) => {
+                    response.data = result.data;
+                    response.flag = true;
+                    response.message = result.message;
+                    res.status(200).send(response);
+                }).catch((err) => {
+                    response.flag = false;
+                    response.data = err.message;
+                    res.status(400).send(response);
+                });
+        } catch (error) {
+            console.error("Record is Not found Please Enter Correct One");
+        }
+    }
 }
 module.exports = new AddressController();

@@ -25,8 +25,16 @@ class AddressService {
             .then((result) => {
                 return ({ message: "Address Deleted Successfully", data: result, status: statusCode.OK });
             }).catch((err) => {
-                return ({ message: "Address is Deleted", error: err, status: statusCode.OK });
+                return ({ message: "Address is Not Deleted", error: err, status: statusCode.NotFound });
             });
+    }
+    getAddress(id){
+        return addressModel.getAddress(id)
+        .then((result) => {
+            return ({ message: "User Address", data: result, status: statusCode.OK });
+        }).catch((err) => {
+            return ({ message: "Address not Found", error: err, status: statusCode.NotFound });
+        });
     }
 }
 module.exports = new AddressService();
