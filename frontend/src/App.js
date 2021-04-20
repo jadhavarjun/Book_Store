@@ -1,15 +1,14 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import './App.css';
-import SignUp from './Component/SignUp/signup'
+import UserForm from './Component/UserForm'
 
 function App() {
   return (
     <div className="App">
-      app page
       <BrowserRouter>
         <Switch>
-          <Route path='/signup' exact component={SignUp}></Route>
+          <Route path='/userform' exact component={UserForm}></Route>
         </Switch>
       </BrowserRouter>
     </div>

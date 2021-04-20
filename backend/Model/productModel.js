@@ -44,6 +44,16 @@ class ProductModel {
             })
     }
 
+    findOne(id) {
+        return productModel.findOne({ _id: id })
+            .then((result) => {
+                return result;
+            })
+            .catch((error) => {
+                return error;
+            })
+    }
+
     updateBook(id, newData) {
         return productModel.findByIdAndUpdate(id, newData)
             .then(result => {

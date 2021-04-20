@@ -4,18 +4,29 @@ const Schema = mongoose.Schema
 // a mongoose schema
 var orderSchema = new mongoose.Schema({
     userID: {
-        type: Schema.Types.ObjectId, //referencing other documents from other collections
-        ref: 'user', //userSchema
+        type: Schema.Types.ObjectId, 
+        ref: 'user',
         require: true
     },
-    productID: [{
-        type: Schema.Types.ObjectId, //referencing other documents from other collections
-        ref: 'product', //userSchema
-        require: true
+    product:[{
+        quantity:{
+            type: Number,
+            require: true
+        },
+        productID:{
+            type: Schema.Types.ObjectId, 
+            ref: 'product',
+            require: true
+        }
     }],
+    // productID: [{
+    //     type: Schema.Types.ObjectId, 
+    //     ref: 'product',
+    //     require: true
+    // }],
     addressID: {
-        type: Schema.Types.ObjectId, //referencing other documents from other collections
-        ref: 'address', //userSchema
+        type: Schema.Types.ObjectId,
+        ref: 'address', 
         require: true
     },
     orderID: {
