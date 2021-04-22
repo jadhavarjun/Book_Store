@@ -1,16 +1,19 @@
-import React from 'react';
-import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import './App.css';
-import UserForm from './Component/UserForm'
+import Dash from './Component/SignInDashboard/Dash'
+
+import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
 
 function App() {
   return (
     <div className="App">
-      <BrowserRouter>
+   
+       <BrowserRouter>
+
         <Switch>
-          <Route path='/userform' exact component={UserForm}></Route>
-        </Switch>
-      </BrowserRouter>
+          <Redirect path="/" to="/bookstore" exact />
+          <Route path="/bookstore" component={Dash}/>
+          </Switch>
+          </BrowserRouter>
     </div>
   );
 }
