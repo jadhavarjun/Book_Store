@@ -1,13 +1,9 @@
 var mongoose = require('mongoose');
 
 var userModel = new mongoose.Schema({
-    firstName: {
+    fullName: {
         type: String,
         required: [true, 'First Name is Required']
-    },
-    lastName: {
-        type: String,
-        required: [true, 'Last Name is Required']
     },
     email: {
         type: String,
@@ -16,18 +12,22 @@ var userModel = new mongoose.Schema({
     },
     role: {
         type: String,
-        enum : ['user','admin'],
+        enum: ['user', 'admin'],
         default: 'user'
     },
     password: {
         type: String,
         required: [true, 'Password is Required']
+    },
+    mobile: {
+        type: Number,
+        required: [true, 'Mobile Number is Required']
     }
 
 },
-{
-    timestamps: true
-});
+    {
+        timestamps: true
+    });
 
 
 let userSchema = mongoose.model('user', userModel);
