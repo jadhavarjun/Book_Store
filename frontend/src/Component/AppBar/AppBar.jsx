@@ -1,4 +1,5 @@
 import React from "react";
+import { Link, Redirect } from "react-router-dom";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import { makeStyles } from "@material-ui/core/styles";
@@ -10,9 +11,10 @@ import SearchIcon from "@material-ui/icons/SearchOutlined";
 import logo from "../../Assets/education.svg";
 import IconButton from "@material-ui/core/IconButton";
 import PersonOutlineIcon from '@material-ui/icons/PersonOutline';
+import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import { withStyles } from "@material-ui/core/styles";
 import Badge from "@material-ui/core/Badge";
-import './AppBar.scss'
+import './Appbar.scss'
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import Fade from "@material-ui/core/Fade";
@@ -111,8 +113,9 @@ const useStyles = makeStyles((theme) => ({
     cartButton: {
         display: "flex",
         flexDirection: "column",
-        fontSize: "14px",
+        fontSize: "10px",
         color: "white",
+        marginLeft: "20px",
     },
     name: {
         display: "flex",
@@ -127,7 +130,6 @@ export default function Header(props) {
     const [books, setBooks] = React.useState([]);
     const [data, setData] = React.useState(0);
     const [hide, setHide] = React.useState(false);
-
 
     const open = Boolean(anchorEl);
     let history = useHistory();
@@ -196,6 +198,7 @@ export default function Header(props) {
                                 onClick={handleClick}>
                             </PermIdentityIcon>
                             <Menu
+
                                 id="fade-menu"
                                 anchorEl={anchorEl}
                                 keepMounted
@@ -203,6 +206,7 @@ export default function Header(props) {
                                 onClose={handleClose}
                                 TransitionComponent={Fade}
                             >
+
 
                                 <MenuItem>
                                     <div className="avatarContainer">
@@ -216,10 +220,6 @@ export default function Header(props) {
                                     {localStorage.getItem("Useremail")}
                                 </MenuItem>
                                 <MenuItem>
-                                    WishList
-                                </MenuItem>
-
-                                <MenuItem>
                                     <Button
                                         onClick={HandleLogout}
                                         variant="contained" style={{
@@ -229,17 +229,24 @@ export default function Header(props) {
                                     >Sign Out
                                      </Button>
                                 </MenuItem>
+                                <MenuItem>
+                                    <FavoriteBorderIcon /> WishList
+                                </MenuItem>
+
                             </Menu>
                             <span className={classes.name}>Profile</span>
                         </IconButton>
-                        <IconButton
-                            className={classes.cartButton}
-                        >
-                            <StyledBadge>
-                                <ShoppingCartOutlinedIcon />
-                            </StyledBadge>
-                            <span>Cart</span>
-                        </IconButton>
+                        <Link to="/cart">
+                            <IconButton
+                                className={classes.cartButton}
+                            >
+                                <StyledBadge>
+                                    <div>1</div>
+                                    <ShoppingCartOutlinedIcon />
+                                </StyledBadge>
+                                <span>Cart</span>
+                            </IconButton>
+                        </Link>
                     </div>
                 </Toolbar>
             </AppBar>
