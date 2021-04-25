@@ -124,7 +124,19 @@ export default function DisplayNotes(props) {
         e.stopPropagation();
         const id = data._id;
         data.isCart = true;
-
+        data={
+            productID: data._id,
+            quantity: 1
+        }
+        service.addToCart(data)
+        .then((result) => {
+            var cartItem = localStorage.getItem("cartItem");
+            localStorage.setItem("cartItem",parseInt(cartItem)+1);
+            window.location.reload();
+            console.log(result)
+        }).catch((err) => {
+            console.log(err)
+        });
     };
 
     const paginate = (pageNumber) => {

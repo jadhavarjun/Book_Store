@@ -11,7 +11,5 @@ export default class services {
     login = (data) => {
         return http.Post(`${baseUrl}/login`, data);
     }
-    addToCart=(data)=>{
-        return http.Post(`${baseUrl}/user/add_cart`, data, );
-    }
+    
 }

@@ -41,12 +41,7 @@ export default function Cart() {
     const [isCityInvalid, setIsCityInvalid] = useState(false);
     const [isLandmarkInvalid, setIsLandmarkInvalid] = useState(false);
 
-    //   let patterns = Validate.getRegexs();
 
-    //   const changeValue = (e, setter, validateSetter, pattern) => {
-    //     setter(e.target.value);
-    //     validateSetter(Validate.validateInput(e.target.value, pattern));
-    //   };
 
     const allDetailsValid = () => {
         return (
@@ -67,27 +62,8 @@ export default function Cart() {
         );
     };
 
-    //   useEffect(() => {
-    //     firebaseCalls.getBookListWithDetails().then((res) => {
-    //       setBookList(res);
-    //     });
-    //   }, []);
-
-    //   const reloadCart = () => {
-    //     firebaseCalls.getBookListWithDetails().then((res) => {
-    //       setBookList(res);
-    //     });
-    //   };
 
     const history = useHistory();
-
-    //   const placeOrder = () => {
-    //     if (allDetailsValid()) {
-    //         firebaseCalls.clearCart().then( () => {
-    //             history.push("/order");
-    //         } )
-    //     }
-    //   };
 
     return (
         <div className="dashboard">

@@ -1,0 +1,15 @@
+.book-info-cart{
+    display: flex;
+    flex-flow: wrap;
+    justify-content: center;
+    width: 100%;
+}
+
+.book-details-cart {
+    border: solid lightgray 1px;
+    position: relative;
+    border-radius: 8px;
+    margin: 15px;
+    height: 280px;
+    width: 200px;
+}

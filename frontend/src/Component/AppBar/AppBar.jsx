@@ -22,9 +22,9 @@ import PermIdentityIcon from "@material-ui/icons/PermIdentity";
 import { Avatar } from "@material-ui/core";
 import Button from '@material-ui/core/Button';
 import { useHistory } from "react-router";
+import Service from '../../Services/bookService'
 
-
-
+const service = new Service();
 const StyledBadge = withStyles((theme) => ({
     badge: {
         right: -3,
@@ -143,6 +143,20 @@ export default function Header(props) {
         history.push("/bookstore/login");
     };
 
+    React.useEffect(() => {
+        getCartItem();
+    }, []);
+
+    const getCartItem = () => {
+        service.getCartItem()
+            .then((result) => {
+                localStorage.setItem("cartItem", result.data.data.length);
+                console.log("::::::::::::::::::::::::",result.data.data.length)
+            }).catch((err) => {
+                console.log(err)
+            });
+    }
+
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
@@ -241,7 +255,7 @@ export default function Header(props) {
                                 className={classes.cartButton}
                             >
                                 <StyledBadge>
-                                    <div>1</div>
+                                    <div>{localStorage.getItem("cartItem")}</div>
                                     <ShoppingCartOutlinedIcon />
                                 </StyledBadge>
                                 <span>Cart</span>

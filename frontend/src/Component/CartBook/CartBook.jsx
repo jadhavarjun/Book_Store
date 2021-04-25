@@ -2,116 +2,108 @@ import { Button, IconButton, TextField, Typography } from "@material-ui/core";
 import React, { useState } from "react";
 import RemoveCircleOutlineRoundedIcon from "@material-ui/icons/RemoveCircleOutlineRounded";
 import AddCircleOutlineRoundedIcon from "@material-ui/icons/AddCircleOutlineRounded";
-// import firebaseCalls from "./../Service/firebase";
+import Service from '../../Services/bookService'
+
+import './CartBook.scss';
+
+const service = new Service();
 
 export default function CartBook(props) {
-  const [selectedQuantity, setSelectedQuantity] = useState(
-    props.book.selectedQuantity
-  );
-//   const handleChange = (event) => {
-//     if (event.target.value < props.book.quantity) {
-//       setSelectedQuantity(event.target.value);
-//       firebaseCalls.editQuantity(props.book.id, event.target.value).then(() => {
-//         props.reloadCart();
-//       });
-//     }
-//   };
+    const [selectedQuantity, setSelectedQuantity] = useState(
+        props.book.quantity
+    );
 
-  return (
-    <div className="book-info-cart">
-      <div
-        className={
-          props.isQuantityShown
-            ? "book-image-container-cart"
-            : "book-image-container-cart-small"
+    const updateQuantity = (flag) => {
+        console.log("tarrrr",flag,selectedQuantity);
+        if (flag=="minus") {
+            console.log("minussssss");
+            setSelectedQuantity(selectedQuantity - 1)
         }
-      >
-        <img src={props.book.image} alt={props.book.title} />
-      </div>
-      <div className="book-details-cart">
-        <div className="book-info-side-cart">
-          <Typography
-            gutterBottom
-            className="book-title"
-            color="textPrimary"
-            component="h1"
-          >
-            {props.book.title}
-          </Typography>
-          <Typography
-            className="book-author"
-            color="textSecondary"
-            component="p"
-          >
-            by {props.book.author}
-          </Typography>
-          <Typography className="book-price" color="textPrimary" component="p">
-            {props.isQuantityShown
-              ? "Rs. " + props.book.price
-              : "Rs. " +
-                props.book.price +
-                " X " +
-                props.book.selectedQuantity +
-                " = " +
-                props.book.price * props.book.selectedQuantity}
-          </Typography>
+        if (flag=="plus") {
+            console.log("plusssssss");
+            setSelectedQuantity(selectedQuantity + 1)
+        }
+        let data = {
+            quantity: selectedQuantity
+        }
+        console.log("wwwwwwwwwwwwwwww", data);
+        service.updateCartItem(data, props.book._id)
+            .then((result) => {
+                console.log(result)
+            }).catch((err) => {
+                console.log(err)
+            });
+    }
+    return (
+        <div className="book-info-cart">
+            <div
+                className={
+                    props.isQuantityShown
+                        ? "book-image-container-cart"
+                        : "book-image-container-cart-small"
+                }
+            >
+                <img src={props.book.productID.bookImgUrl} alt={props.book.productID.bookName} />
+            </div>
+            <div className="book-details-cart">
+                <div className="book-info-side-cart">
+                    <Typography
+                        gutterBottom
+                        className="book-title"
+                        color="textPrimary"
+                        component="h1"
+                    >
+                        {props.book.productID.bookName}
+                    </Typography>
+                    <Typography
+                        className="book-author"
+                        color="textSecondary"
+                        component="p"
+                    >
+                        by {props.book.productID.author}
+                    </Typography>
+                    <Typography className="book-price" color="textPrimary" component="p">
+                        {props.isQuantityShown
+                            ? "Rs. " + props.book.productID.price
+                            : ""}
+                    </Typography>
+                </div>
+                {props.isQuantityShown ? (
+                    <div className="book-cart-quantity">
+                        <div className="book-cart-quantity-buttons">
+                            <IconButton
+                                onClick={() => {
+                                    updateQuantity("minus")
+                                }}
+                            >
+                                <RemoveCircleOutlineRoundedIcon />
+                            </IconButton>
+                            <TextField
+                                // onChange={handleChange}
+                                type="number"
+                                size="small"
+                                className="cart-book-quantity"
+                                variant="outlined"
+                                value={selectedQuantity}
+                            />
+                            <IconButton
+                                onClick={() => {
+                                    updateQuantity("plus")
+                                }}
+                            >
+                                <AddCircleOutlineRoundedIcon />
+                            </IconButton>
+                        </div>
+                        <div className="book-cart-quantity-buttons">
+                            <Button>
+                                Remove
+                            </Button>
+                        </div>
+                    </div>
+                ) : (
+                    ""
+                )}
+            </div>
         </div>
-        {props.isQuantityShown ? (
-          <div className="book-cart-quantity">
-            <div className="book-cart-quantity-buttons">
-              <IconButton
-                onClick={() => {
-            //       if (selectedQuantity > 1) {
-            //         setSelectedQuantity(selectedQuantity - 1);
-            //         firebaseCalls
-            //           .editQuantity(props.book.id, selectedQuantity - 1)
-            //           .then(() => {
-            //             props.reloadCart();
-            //           });
-            //       }
-                }}
-              >
-                <RemoveCircleOutlineRoundedIcon />
-              </IconButton>
-              <TextField
-                // onChange={handleChange}
-                type="number"
-                size="small"
-                className="cart-book-quantity"
-                variant="outlined"
-                value={selectedQuantity}
-              />
-              <IconButton
-                // onClick={() => {
-                //   if (selectedQuantity < props.book.quantity) {
-                //     setSelectedQuantity(selectedQuantity + 1);
-                //     firebaseCalls
-                //       .editQuantity(props.book.id, selectedQuantity + 1)
-                //       .then(() => {
-                //         props.reloadCart();
-                //       });
-                //   }
-                // }}
-              >
-                <AddCircleOutlineRoundedIcon />
-              </IconButton>
-            </div>
-            <div className="book-cart-quantity-buttons">
-              <Button
-                // onClick={() => {
-                //   firebaseCalls.removeBookToCart(props.book.id).then(() => {
-                //     props.reloadCart();
-                //   });
-                // }}
-              >
-                Remove
-              </Button>
-            </div>
-          </div>
-        ) : (
-          ""
-        )}
-      </div>
-    </div>
-  );
+    );
 }

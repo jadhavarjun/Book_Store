@@ -66,11 +66,9 @@ export default function Login(props) {
                 password: password,
             };
             service.login(data).then((response)=>{
-                console.log(response)
-                localStorage.setItem("Usertoken", response.data.data.token)
-                localStorage.setItem("Useremail", response.data.data.email)
-                localStorage.setItem("UserName", response.data.data.fullName)
-                console.log("Success",response.data.data.fullName);
+                console.log("rrrrrrrrrr",response.data.data)
+                localStorage.setItem("token", response.data.data.token)
+                localStorage.setItem("email", response.data.data.email)
                 setTimeout(() => {  history.push("/dashBoard"); }, 2000);
             })
             .catch((error)=>{

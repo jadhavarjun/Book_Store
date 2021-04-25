@@ -48,8 +48,8 @@ export default function Order() {
                                 <TableBody>
                                     <TableRow >
                                         <TableCell className="small-body" align="center">admin@bookstore.com</TableCell>
-                                        <TableCell className="small-body" align="center">+91 8163475881</TableCell>
-                                        <TableCell align="center">42, 14th Main, 15th Cross, Sector 4, oppto BDA complex, near Kumarkom restaurant, HSR layout, Banglore 560334.</TableCell>
+                                        <TableCell className="small-body" align="center">+91 9730756681</TableCell>
+                                        <TableCell align="center">42, 14th Main, 15th Cross, Sector 4, oppto BDA complex, near Kumarkom restaurant, Mumbai 560334.</TableCell>
                                     </TableRow>
                                 </TableBody>
                             </Table>
