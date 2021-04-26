@@ -14,20 +14,28 @@ export default function CartBook(props) {
     );
 
     const updateQuantity = (flag) => {
-        console.log("tarrrr",flag,selectedQuantity);
-        if (flag=="minus") {
+        console.log("tarrrr", flag, selectedQuantity);
+        if (flag == "minus") {
             console.log("minussssss");
             setSelectedQuantity(selectedQuantity - 1)
         }
-        if (flag=="plus") {
+        if (flag == "plus") {
             console.log("plusssssss");
             setSelectedQuantity(selectedQuantity + 1)
         }
         let data = {
             quantity: selectedQuantity
         }
-        console.log("wwwwwwwwwwwwwwww", data);
         service.updateCartItem(data, props.book._id)
+            .then((result) => {
+                console.log(result)
+            }).catch((err) => {
+                console.log(err)
+            });
+    }
+    const removeFromCart = () => {
+        console.log("wwwwwwwwwwwwwwww", props.book._id);
+        service.deleteCartItem(props.book._id)
             .then((result) => {
                 console.log(result)
             }).catch((err) => {
@@ -43,7 +51,7 @@ export default function CartBook(props) {
                         : "book-image-container-cart-small"
                 }
             >
-                <img src={props.book.productID.bookImgUrl} alt={props.book.productID.bookName} />
+                <img src={props.book.productID.bookImgUrl} alt={props.book.productID.bookName} className="img" />
             </div>
             <div className="book-details-cart">
                 <div className="book-info-side-cart">
@@ -95,7 +103,11 @@ export default function CartBook(props) {
                             </IconButton>
                         </div>
                         <div className="book-cart-quantity-buttons">
-                            <Button>
+                            <Button
+                                onClick={()=>{
+                                    removeFromCart();
+                                }}
+                            >
                                 Remove
                             </Button>
                         </div>

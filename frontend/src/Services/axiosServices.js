@@ -12,4 +12,8 @@ export default class axiosServices {
     Put = (url, data, isHeaderRequired = false) => {
         return axios.put(url, data, isHeaderRequired)
     }
+
+    Delete = (url, data, isHeaderRequired = false) => {
+        return axios.delete(url, data, isHeaderRequired)
+    }
 }

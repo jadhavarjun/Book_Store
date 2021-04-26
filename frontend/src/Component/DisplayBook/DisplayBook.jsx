@@ -78,7 +78,7 @@ export default function DisplayNotes(props) {
     const [sort, setSort] = React.useState({ type: "" });
     const [postsPerPage] = React.useState(10);
     const [currentPage, setCurrentPage] = React.useState(1);
-
+ 
 
     React.useEffect(() => {
         getAllBooks();
@@ -94,7 +94,6 @@ export default function DisplayNotes(props) {
             console.log("error");
         })
     };
-
 
     const handleChange = (event) => {
         const name = event.target.name;
@@ -130,9 +129,7 @@ export default function DisplayNotes(props) {
         }
         service.addToCart(data)
         .then((result) => {
-            var cartItem = localStorage.getItem("cartItem");
-            localStorage.setItem("cartItem",parseInt(cartItem)+1);
-            window.location.reload();
+            props.getCartItem();
             console.log(result)
         }).catch((err) => {
             console.log(err)

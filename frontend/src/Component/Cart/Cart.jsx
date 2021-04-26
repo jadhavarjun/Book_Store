@@ -14,10 +14,12 @@ import {
 // import validation from "./../../Service/validation";
 import Navbar from "../AppBar/AppBar";
 import { Link, Redirect } from "react-router-dom";
-// import firebaseCalls from "./../../Service/firebase";
 // import OrderSummary from "../OrderSummary";
 import './Cart.scss'
 import { useHistory } from "react-router-dom";
+import Service from '../../Services/bookService';
+
+const service = new Service();
 
 // let Validate = new validation();
 
@@ -31,7 +33,10 @@ export default function Cart() {
     const [address, setAddress] = useState("");
     const [city, setCity] = useState("");
     const [landmark, setLandmark] = useState("");
-    const [type, setType] = useState("Home");
+    const [state, setState] = useState("");
+    const [cartItem, setCartItem] = useState([]);
+    const [addressID, setAddressID] = useState("")
+    const [orderID, setOrderID] = useState("")
 
     const [isNameInvalid, setIsNameInvalid] = useState(false);
     const [isPhoneInvalid, setIsPhoneInvalid] = useState(false);
@@ -62,6 +67,61 @@ export default function Cart() {
         );
     };
 
+    React.useEffect(() => {
+        getAddress();
+        getCartItem();
+    }, []);
+
+    const getAddress = () => {
+        service.getAddress()
+            .then((result) => {
+                setName(result.data.data.fullName)
+                setPhone(result.data.data.mobile)
+                setPincode(result.data.data.pincode)
+                setCity(result.data.data.city)
+                setAddress(result.data.data.address)
+                setLandmark(result.data.data.landmark)
+                setState(result.data.data.state)
+                setAddressID(result.data.data._id)
+                console.log("rrrrrrrrrr", result);
+            }).catch((err) => {
+                console.log(err);
+            });
+    }
+
+    const getCartItem = () => {
+        service.getCartItem()
+            .then((result) => {
+                setCartItem(result.data.data);
+                console.log("pppppppppppppppp", result.data.data)
+            }).catch((err) => {
+                console.log(err)
+            });
+    }
+
+    const placedOrder = () => {
+        let product = [];
+        cartItem.map((obj) => {
+            let data = {
+                quantity: obj.quantity,
+                productID: obj.productID._id
+            }
+            product.push(data)
+
+        })
+        let body = {
+            product: product,
+            addressID: addressID
+        }
+        service.placedOrder(body)
+            .then((result) => {
+                setOrderID(result.data.data.orderID)
+                history.push("/order")
+                console.log("OOOOOOOOOOOOOOOOOOOOO", result);
+            }).catch((err) => {
+                console.log(err);
+            });
+    }
 
     const history = useHistory();
 
@@ -83,15 +143,8 @@ export default function Cart() {
                                 <Grid container spacing={0} item md={8} className="cart-form">
                                     <FormControl className="cart-input-col">
                                         <TextField
-                                            error={isNameInvalid}
-                                            //   onChange={(e) => {
-                                            //     changeValue(
-                                            //       e,
-                                            //       setName,
-                                            //       setIsNameInvalid,
-                                            //       patterns.fullName
-                                            //     );
-                                            //   }}
+                                            multiline
+                                            rows={1}
                                             className="cart-input"
                                             size="small"
                                             name="name"
@@ -102,19 +155,12 @@ export default function Cart() {
                                     </FormControl>
                                     <FormControl className="cart-input-col">
                                         <TextField
-                                            error={isPhoneInvalid}
-                                            //   onChange={(e) => {
-                                            //     changeValue(
-                                            //       e,
-                                            //       setPhone,
-                                            //       setIsPhoneInvalid,
-                                            //       patterns.phoneNumber
-                                            //     );
-                                            //   }}
+                                            multiline
+                                            rows={1}
                                             className="cart-input"
                                             size="small"
                                             name="phone"
-                                            //   value={phone}
+                                            defaultValue={phone}
                                             type="number"
                                             variant="outlined"
                                             label="Phone Number"
@@ -122,19 +168,12 @@ export default function Cart() {
                                     </FormControl>
                                     <FormControl className="cart-input-col">
                                         <TextField
-                                            error={isPincodeInvalid}
-                                            //   onChange={(e) => {
-                                            //     changeValue(
-                                            //       e,
-                                            //       setPincode,
-                                            //       setIsPincodeInvalid,
-                                            //       patterns.pincode
-                                            //     );
-                                            //   }}
+                                            multiline
+                                            rows={1}
                                             className="cart-input"
                                             size="small"
                                             name="pincode"
-                                            //   value={pincode}
+                                            defaultValue={pincode}
                                             type="number"
                                             variant="outlined"
                                             label="Pincode"
@@ -142,39 +181,24 @@ export default function Cart() {
                                     </FormControl>
                                     <FormControl className="cart-input-col">
                                         <TextField
-                                            error={isLocalityInvalid}
-                                            //   onChange={(e) => {
-                                            //     changeValue(
-                                            //       e,
-                                            //       setLocality,
-                                            //       setIsLocalityInvalid,
-                                            //       patterns.address
-                                            //     );
-                                            //   }}
+                                            multiline
+                                            rows={1}
                                             className="cart-input"
                                             size="small"
-                                            name="locality"
-                                            //   value={locality}
+                                            defaultValue={city}
+                                            name="address"
                                             variant="outlined"
-                                            label="Locality"
+                                            label="city"
                                         />
                                     </FormControl>
                                     <FormControl fullWidth className="cart-input-col">
                                         <TextField
                                             error={isAddressInvalid}
-                                            //   onChange={(e) => {
-                                            //     changeValue(
-                                            //       e,
-                                            //       setAddress,
-                                            //       setIsAddressInvalid,
-                                            //       patterns.address
-                                            //     );
-                                            //   }}
                                             multiline
                                             rows={3}
                                             className="cart-input"
                                             size="small"
-                                            //   value={address}
+                                            defaultValue={address}
                                             name="address"
                                             variant="outlined"
                                             label="Address"
@@ -182,52 +206,38 @@ export default function Cart() {
                                     </FormControl>
                                     <FormControl className="cart-input-col">
                                         <TextField
-                                            error={isCityInvalid}
-                                            //   onChange={(e) => {
-                                            //     changeValue(
-                                            //       e,
-                                            //       setCity,
-                                            //       setIsCityInvalid,
-                                            //       patterns.city
-                                            //     );
-                                            //   }}
+                                            multiline
+                                            rows={1}
                                             className="cart-input"
                                             name="city"
-                                            //   value={city}
+                                            defaultValue={landmark}
                                             size="small"
                                             variant="outlined"
-                                            label="City"
+                                            label="Landmark"
                                         />
                                     </FormControl>
                                     <FormControl className="cart-input-col">
                                         <TextField
-                                            error={isLandmarkInvalid}
-                                            //   onChange={(e) => {
-                                            //     changeValue(
-                                            //       e,
-                                            //       setLandmark,
-                                            //       setIsLandmarkInvalid,
-                                            //       patterns.address
-                                            //     );
-                                            //   }}
+                                            multiline
+                                            rows={1}
                                             className="cart-input"
                                             name="landmark"
                                             size="small"
-                                            //   value={landmark}
+                                            defaultValue={state}
                                             variant="outlined"
-                                            label="Landmark"
+                                            label="State"
                                         />
                                     </FormControl>
                                     <FormControl fullWidth className="cart-input-col">
                                         <FormLabel className="cart-input" component="legend">
                                             Type
-                    </FormLabel>
+                                          </FormLabel>
                                         <RadioGroup
                                             aria-label="type"
                                             name="type"
                                             className="cart-radio"
                                             dir="row"
-                                            value={type}
+                                        // value={type}
                                         //   onChange={(e) => {
                                         //     setType(e.target.value);
                                         //   }}
@@ -249,11 +259,16 @@ export default function Cart() {
                                             />
                                         </RadioGroup>
                                         <br />
-                                        <Link to="/order" className="navbar-button-dark">
-                                            <Button variant="contained" color="primary">
-                                                Placed Your Order
-                                        </Button>
-                                        </Link>
+                                        {cartItem.length == 0 ? <Button variant="contained" color="primary" disabled>
+                                            Placed Your Order
+                                        </Button> : <Button variant="contained" color="primary"
+                                            onClick={() => {
+                                                placedOrder();
+                                            }}
+                                        >
+                                            Placed Your Order
+                                        </Button>}
+
                                     </FormControl>
                                 </Grid>
                             </Grid>

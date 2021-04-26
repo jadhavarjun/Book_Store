@@ -1,11 +1,12 @@
-import React from "react";
+import React,{useState} from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "../AppBar/AppBar";
 import Books from "../DisplayBook/DisplayBook";
 import { Switch, Route } from "react-router-dom";
 import Footer from '../Footer/footer'
+import Service from '../../Services/bookService'
 
-
+const service = new Service();
 
 const useStyles = makeStyles((theme) => ({
     dashboardMain: {
@@ -21,12 +22,27 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Dashboard(props) {
     const classes = useStyles();
+
+    const [cartItem, setCartItem] = useState(0);
+
+    React.useEffect(() => {
+        getCartItem();
+    }, []);
+    const getCartItem = () => {
+        service.getCartItem()
+            .then((result) => {
+                setCartItem(result.data.data.length);
+                console.log("SSSSSS", result.data.data)
+            }).catch((err) => {
+                console.log(err)
+            });
+    }
     return (
         <div className={classes.dashboardMain}>
-            <AppBar />
+            <AppBar cartItem={cartItem} />
             <Switch>
                 <Route path="/dashboard" exact>
-                    <Books />
+                    <Books cartItem={cartItem} getCartItem={getCartItem}/>
                 </Route>
             </Switch>
             <Footer/>

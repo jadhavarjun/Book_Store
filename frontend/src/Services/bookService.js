@@ -14,6 +14,8 @@ export default class services {
             }
         })
     }
+
+    //cart
     addToCart=(data)=>{
         return axios.Post(`${baseUrl}/user/add_cart`, data, {
             headers: {
@@ -33,6 +35,32 @@ export default class services {
     updateCartItem = (data, id) => {
 
         return axios.Put(`${baseUrl}/cart/update/${id}`, data, {
+            headers: {
+                token: token
+            }
+        })
+    }
+
+    deleteCartItem = (id) => {
+        return axios.Delete(`${baseUrl}/user/remove_cart/${id}`, {
+            headers: {
+                token: token
+            }
+        })
+    }
+
+    //address
+    getAddress=()=>{
+        return axios.Get(`${baseUrl}/get_address`, {
+            headers: {
+                token: token
+            }
+        })
+    }
+
+    // placed Order
+    placedOrder=(data)=>{
+        return axios.Post(`${baseUrl}/place_order`, data, {
             headers: {
                 token: token
             }

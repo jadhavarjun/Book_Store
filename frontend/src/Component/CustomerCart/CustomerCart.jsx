@@ -27,10 +27,13 @@ export default function CustomerCart(props) {
     }
     return (
         <div className="cart-box" >
+            <div>
             <Typography variant="h5">
                 My cart({book.length})
             </Typography>
+            </div>
             {book.length === 0 ? <div className="empty-cart" >Cart Is Empty</div> : 
+            
             (<div className="cart-books" variant="h5">
                 {cartBooks}
             </div> )}

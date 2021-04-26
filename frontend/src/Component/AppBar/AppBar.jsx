@@ -255,7 +255,7 @@ export default function Header(props) {
                                 className={classes.cartButton}
                             >
                                 <StyledBadge>
-                                    <div>{localStorage.getItem("cartItem")}</div>
+                                    <div>{props.cartItem}</div>
                                     <ShoppingCartOutlinedIcon />
                                 </StyledBadge>
                                 <span>Cart</span>

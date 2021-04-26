@@ -127,7 +127,7 @@ export default function Login(props) {
             <br />
             <div className="flogin">
                 <div className="OR">
-                    <p>---------    OR    ---------</p>
+                    <p>   OR    </p>
                     <div className="flog">
                         <Button1 variant="contained" color="primary">
                             FaceBook
