@@ -1,10 +1,11 @@
-import React,{useState} from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "../AppBar/AppBar";
 import Books from "../DisplayBook/DisplayBook";
 import { Switch, Route } from "react-router-dom";
 import Footer from '../Footer/footer'
 import Service from '../../Services/bookService'
+import ProtectedRoute from '../protectedRoutes/protectedRoutes'
 
 const service = new Service();
 
@@ -41,12 +42,12 @@ export default function Dashboard(props) {
         <div className={classes.dashboardMain}>
             <AppBar cartItem={cartItem} />
             <Switch>
-                <Route path="/dashboard" exact>
-                    <Books cartItem={cartItem} getCartItem={getCartItem}/>
-                </Route>
+                <ProtectedRoute path="/dashBoard">
+                    <Books cartItem={cartItem} getCartItem={getCartItem} />
+                </ProtectedRoute>
             </Switch>
-            <Footer/>
-          
+            <Footer />
+
         </div>
     );
 

@@ -31,7 +31,7 @@ export default function Order() {
           </Typography>
                     <Grid item md={5}>
                         <Typography className="order-subtitle">
-                            hurray!!! your order is confirmed. the order id is #123456 save
+                            hurray!!! your order is confirmed. the order id is #769876543212 save
                             the order id for further communication
             </Typography>
                     </Grid>

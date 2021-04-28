@@ -125,18 +125,11 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Header(props) {
     const classes = useStyles();
-    const [input, setInput] = React.useState();
     const [anchorEl, setAnchorEl] = React.useState(null);
-    const [books, setBooks] = React.useState([]);
-    const [data, setData] = React.useState(0);
     const [hide, setHide] = React.useState(false);
 
     const open = Boolean(anchorEl);
     let history = useHistory();
-    const searchItemfunc = (e, data) => {
-        console.log('input : ', input)
-
-    };
 
     const HandleLogout = (event) => {
         localStorage.clear();
@@ -151,7 +144,7 @@ export default function Header(props) {
         service.getCartItem()
             .then((result) => {
                 localStorage.setItem("cartItem", result.data.data.length);
-                console.log("::::::::::::::::::::::::",result.data.data.length)
+                console.log("::::::::::::::::::::::::", result.data.data.length)
             }).catch((err) => {
                 console.log(err)
             });
@@ -190,9 +183,7 @@ export default function Header(props) {
                                 placeholder="Search…"
                                 classes={{ input: classes.inputInput }}
                                 className={classes.input}
-                                value={input}
-                                onChange={(e) => { setInput(e.target.value) }}
-                                onChange={(e) => { searchItemfunc(e, data) }} />
+                            />
                         </div>
                     </div>
 
@@ -254,10 +245,11 @@ export default function Header(props) {
                             <IconButton
                                 className={classes.cartButton}
                             >
-                                <StyledBadge>
-                                    <div>{props.cartItem}</div>
+                                <Badge badgeContent={props.cartItem} color="secondary">
+
                                     <ShoppingCartOutlinedIcon />
-                                </StyledBadge>
+
+                                </Badge>
                                 <span>Cart</span>
                             </IconButton>
                         </Link>

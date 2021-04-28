@@ -78,10 +78,12 @@ export default function DisplayNotes(props) {
     const [sort, setSort] = React.useState({ type: "" });
     const [postsPerPage] = React.useState(10);
     const [currentPage, setCurrentPage] = React.useState(1);
- 
+
+    const [cartItem, setCartItem] = React.useState([]);
 
     React.useEffect(() => {
         getAllBooks();
+        getCartItem();
     }, []);
 
     const getAllBooks = () => {
@@ -119,21 +121,30 @@ export default function DisplayNotes(props) {
         }
     };
 
+    const getCartItem = () => {
+        service.getCartItem()
+            .then((result) => {
+                setCartItem(result.data.data);
+            }).catch((err) => {
+                console.log(err)
+            });
+    }
+
     const addedToCart = (e, data) => {
         e.stopPropagation();
         const id = data._id;
         data.isCart = true;
-        data={
+        data = {
             productID: data._id,
             quantity: 1
         }
         service.addToCart(data)
-        .then((result) => {
-            props.getCartItem();
-            console.log(result)
-        }).catch((err) => {
-            console.log(err)
-        });
+            .then((result) => {
+                props.getCartItem();
+                console.log(result)
+            }).catch((err) => {
+                console.log(err)
+            });
     };
 
     const paginate = (pageNumber) => {
@@ -144,7 +155,21 @@ export default function DisplayNotes(props) {
     const indexOfFirstBook = indexOfLastBook - postsPerPage;
     const currentBooks = books.slice(indexOfFirstBook, indexOfLastBook);
 
+    currentBooks.map((item) => {
 
+        cartItem.map((obj) => {
+
+            if (item._id == obj.productID._id) {
+                item.isCart = true;
+                // console.log("??????????????", currentBooks);
+            }
+            else {
+                item.isCart = false;
+            }
+        })
+    })
+    console.log(">>>>>>>>>>", currentBooks);
+    console.log(";;;;;;;;;;;;;", cartItem);
     return (
         <div className="displayBook">
             <span className="topContent">
@@ -172,8 +197,9 @@ export default function DisplayNotes(props) {
             </span>
             <div className="allBooks">
                 {currentBooks.map((data) => (
+                
                     <div className="bookContainer">
-
+                        {/* {console.log("++++++++++++++++",data)} */}
                         <div className="imageContainer">
                             <img className="bookImage" src={data.bookImgUrl} alt="" />
                         </div>
@@ -188,10 +214,22 @@ export default function DisplayNotes(props) {
                                 Rs. {data.price}
                             </Typography>
                         </div>
-                        {data.isCart ? (
+                        {
+                            data.isCart ? (
+
                             <Button variant="contained" className={classes.addedBagButton}>
                                 Added To Cart
+                            </Button> ) : <Button
+                                variant="contained"
+                                onClick={(e) => addedToCart(e, data)}
+                                className={classes.addToBagButton}
+                            >
+                                Add to cart
                             </Button>
+                            
+                        }
+                        {/* {data.isCart ? (
+                           
                         ) : data.isWishlist ? (
                             <Button variant="contained" className={classes.addedBagButton}>
                                 Added To Wishlist
@@ -202,13 +240,7 @@ export default function DisplayNotes(props) {
                             </Button>
                         ) : (
                             <div className="buttonContainer">
-                                <Button
-                                    variant="contained"
-                                    onClick={(e) => addedToCart(e, data)}
-                                    className={classes.addToBagButton}
-                                >
-                                    Add to cart
-                                </Button>
+                                
                                 <Button variant="outlined"
                                     className={classes.wishListButton}
 
@@ -217,7 +249,7 @@ export default function DisplayNotes(props) {
                                 </Button>
                             </div>
 
-                        )}
+                        )} */}
                         <div className="descClass">
                             <Typography className={classes.bookName}>Book Details</Typography>
                             <Typography className={classes.bookName}>{data.bookname}</Typography>

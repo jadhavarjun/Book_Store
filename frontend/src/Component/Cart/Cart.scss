@@ -57,3 +57,22 @@ legend.cart-input{
 .place-order{
     align-self: flex-end;
 }
+
+.cartItem {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.cartBookItem {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin: 10px;
+}
+
+.cartBookImage {
+    width: 20%;
+    height: 70%;
+}

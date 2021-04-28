@@ -2,16 +2,14 @@ import { Typography } from '@material-ui/core'
 import React from 'react';
 import CartBook from '../CartBook/CartBook';
 import Service from '../../Services/bookService';
+import Button from '@material-ui/core/Button';
 
 const service = new Service();
 
 export default function CustomerCart(props) {
     const [book, setBook] = React.useState([]);
 
-    let cartBooks = book.map( (book) => {
-        return <CartBook isQuantityShown={true} key={book._id} reloadCart={props.reloadCart} book={book}/>
-    });
-
+    
     React.useEffect(() => {
         getCartItem();
     }, []);
@@ -25,9 +23,15 @@ export default function CustomerCart(props) {
                 console.log(err)
             });
     }
+    console.log("BBBBBBBBB",book)
+    let cartBooks = book.map((item) => {
+        console.log("mapppppppppmmmmmmmm",item)
+        return <CartBook isQuantityShown={true} key={item._id} reloadCart={props.reloadCart} book={item} getCartItem={getCartItem} />
+    });
+
     return (
-        <div className="cart-box" >
-            <div>
+        <div >
+            <div className="my-cart">
             <Typography variant="h5">
                 My cart({book.length})
             </Typography>
@@ -37,7 +41,7 @@ export default function CustomerCart(props) {
             (<div className="cart-books" variant="h5">
                 {cartBooks}
             </div> )}
-            {/* <Button className="place-order" variant="contained" color="secondary" >Place Order</Button> */}
+            {/* <Button className="place-order" variant="contained" color="primary" >Place Order</Button> */}
         </div>
     )
 }
