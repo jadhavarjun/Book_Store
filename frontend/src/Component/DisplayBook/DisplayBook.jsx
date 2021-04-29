@@ -197,7 +197,7 @@ export default function DisplayNotes(props) {
             </span>
             <div className="allBooks">
                 {currentBooks.map((data) => (
-                
+
                     <div className="bookContainer">
                         {/* {console.log("++++++++++++++++",data)} */}
                         <div className="imageContainer">
@@ -214,7 +214,7 @@ export default function DisplayNotes(props) {
                                 Rs. {data.price}
                             </Typography>
                         </div>
-                        {
+                        {/* {
                             data.isCart ? (
 
                             <Button variant="contained" className={classes.addedBagButton}>
@@ -227,7 +227,45 @@ export default function DisplayNotes(props) {
                                 Add to cart
                             </Button>
                             
-                        }
+                        } */}
+
+                        {data.isCart ? (
+                            <Button variant="contained" className={classes.addedBagButton}>
+                                Added To Cart
+                            </Button>
+                        ) : data.isWishlist ? (
+                            <Button variant="contained" className={classes.addedBagButton}>
+                                Added To Wishlist
+                            </Button>
+                        ) : data.quantity == 0 ? (
+                            <div>
+                                <Button variant="contained" className={classes.ouOfStockButton}>
+                                    Out of Stock
+                            </Button>
+                                <Button variant="contained" className={classes.outwishListButton}>
+                                    WishList
+                            </Button>
+                            </div>
+                        )
+                            : (
+                                <div className="buttonContainer">
+                                    <Button
+                                        variant="contained"
+                                        onClick={(e) => addedToCart(e, data)}
+                                        className={classes.addToBagButton}
+                                    >
+                                        Add to cart
+                                </Button>
+                                    <Button variant="outlined"
+                                        className={classes.wishListButton}
+
+                                    >
+                                        WishList
+                                </Button>
+                                </div>
+
+                            )}
+
                         {/* {data.isCart ? (
                            
                         ) : data.isWishlist ? (

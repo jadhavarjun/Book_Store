@@ -304,11 +304,11 @@ export default function Cart(props) {
                                 {
                                     cartItem.map((obj) => {
                                         return (
-                                            <div>
-                                                <div className="">
-                                                    <img className="cartBookImage" src={obj.productID.bookImgUrl} alt="" />
+                                            <div className="cartBookItem">
+                                                <div className="img-div">
+                                                    <img className="checkoutImage" src={obj.productID.bookImgUrl} alt="" />
                                                 </div>
-                                                <div className="infoContainer">
+                                                <div className="book_name-price-author">
                                                     <Typography className={classes.bookName}>
                                                         {obj.productID.bookName}
 
